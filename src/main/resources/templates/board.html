@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: main-head"/>
+
+<body class="bg-light">
+
+<nav th:replace="fragments/navbar :: main-nav"/>
+
+<div class="container col-lg-6 ">
+    <form class="form-inline my-2 my-lg-0 float-right" style="padding-bottom : 16px;">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+    <div class="table-responsive clearfix">
+        <table class="table table-hover">
+            <thead class="text-center">
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>등록일</th>
+                <th >수정/삭제</th>
+            </tr>
+            </thead>
+
+            <tbody class="text-center">
+            <tr th:each="Post:${PostList}">
+                <td  class="align-middle" th:text="${PostStat.index+1}"></td>
+                <td  class="align-middle">
+                    <a th:text="${Post.title}"></a>
+                </td>
+                <td  class="align-middle" th:text="${Post.name}"></td>
+                <td  class="align-middle" th:text="${Post.writeTime}"></td>
+                <td class="text-center align-middle">
+                    <button class="btn btn-primary">수정</button>
+                    <button class="btn btn-danger">삭제</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="btn_wrap text-right">
+            <a href="#" class="btn btn-primary waves-effect waves-light">Write</a>
+        </div>
+
+        <div class="text-center ">
+            <ul class="pagination" style="justify-content: center;">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">&laquo;</a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">4</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">5</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
