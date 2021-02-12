@@ -83,7 +83,7 @@ class PostControllerTest {
                 .writeTime(LocalDateTime.now())
                 .build();
 
-        given(postService.addPost(mockPost)).willReturn(mockPost);
+        given(postService.addPost(any())).willReturn(mockPost);
 
         ResultActions resultActions = mockMvc.perform(post("/post")
                 .flashAttr("postDto", new PostDto())
@@ -107,7 +107,7 @@ class PostControllerTest {
                 .writeTime(LocalDateTime.now())
                 .build();
 
-        given(postService.addPost(mockPost)).willReturn(mockPost);
+        given(postService.addPost(any())).willReturn(mockPost);
 
         ResultActions resultActions = mockMvc.perform(post("/post")
                 .flashAttr("postDto", new PostDto())
@@ -131,7 +131,7 @@ class PostControllerTest {
                 .writeTime(LocalDateTime.now())
                 .build();
 
-        given(postService.addPost(mockPost)).willReturn(mockPost);
+        given(postService.addPost(any())).willReturn(mockPost);
 
         ResultActions resultActions = mockMvc.perform(post("/post")
                 .flashAttr("postDto", new PostDto())

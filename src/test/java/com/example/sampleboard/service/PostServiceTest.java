@@ -1,5 +1,6 @@
 package com.example.sampleboard.service;
 
+import com.example.sampleboard.control.dto.PostDto;
 import com.example.sampleboard.domain.Post;
 import com.example.sampleboard.exception.PostNotExistedException;
 import com.example.sampleboard.repository.PostRepository;
@@ -39,7 +40,7 @@ class PostServiceTest {
     @DisplayName("새로운 포스트를 추가한다.")
     @Transactional
     public void addPost() {
-        Post post = Post.builder()
+        PostDto postDto = PostDto.builder()
                 .title("test")
                 .name("tester")
                 .content("test")
@@ -54,9 +55,9 @@ class PostServiceTest {
                 .writeTime(LocalDateTime.now())
                 .build();
 
-        given(postRepository.save(post)).willReturn(mockPost);
+        given(postRepository.save(any())).willReturn(mockPost);
 
-        Post returnPost = postService.addPost(post);
+        Post returnPost = postService.addPost(postDto);
 
         assertThat(returnPost.getId()).isEqualTo(mockPost.getId());
         assertThat(returnPost.getTitle()).isEqualTo(mockPost.getTitle());
@@ -65,7 +66,7 @@ class PostServiceTest {
         assertThat(returnPost.getWriteTime()).isEqualTo(mockPost.getWriteTime());
 
 
-        verify(postRepository).save(post);
+        verify(postRepository).save(any());
     }
 
     @Test

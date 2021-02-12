@@ -28,14 +28,13 @@ public class PostController {
 
     @PostMapping("/post")
     public String creatNewPost(@Valid @ModelAttribute("postDto") PostDto postDto) {
-        Post newPost = postService.addPost(Post.builder()
-                .title(postDto.getTitle())
-                .name(postDto.getName())
-                .content(postDto.getContent())
-                .writeTime(LocalDateTime.now())
-                .build());
+        if(postDto.getId() == null) {
+            postService.addPost(postDto);
+        }else{
+            postService.revisePostDetails(postDto);
+        }
 
-        return "redirect:post";
+        return "redirect:/";
     }
 
     @GetMapping("/post/{postId}")
@@ -53,4 +52,40 @@ public class PostController {
         model.addAttribute("postDto", postDto);
         return "details";
     }
+
+
+    @GetMapping("/post/{postId}/revise")
+    public String getPostDetailsToRevise(@PathVariable("postId") Long id, Model model) {
+        Post post = postService.getPostById(id);
+
+        PostDto postDto = PostDto.builder()
+                .id(post.getId())
+                .name(post.getName())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .writeTime(post.getWriteTime())
+                .build();
+
+        model.addAttribute("postDto", postDto);
+        return "post";
+    }
+
+//    @PatchMapping("/post/{postId}/revise")
+//    public String revisePostDetails(
+//            @PathVariable("postId") Long id
+//            , @Valid @ModelAttribute("postDto") PostDto postDto
+//    ) {
+//        Post newPost = Post.builder()
+//                .id(postDto.getId())
+//                .name(postDto.getName())
+//                .title(postDto.getTitle())
+//                .writeTime(postDto.getWriteTime())
+//                .content(postDto.getContent())
+//                .build();
+//
+//        Post post = postService.revisePostDetails(newPost);
+//
+//        return "redirect:/post/"+post.getId();
+//    }
+
 }

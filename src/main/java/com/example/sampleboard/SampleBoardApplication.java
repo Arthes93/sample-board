@@ -23,7 +23,7 @@ public class SampleBoardApplication {
         return new CommandLineRunner() {
             @Override
             public void run(String... args) throws Exception {
-                IntStream.rangeClosed(1, 200).forEach(index ->
+                IntStream.rangeClosed(1, 10).forEach(index ->
                         postRepository.save(Post.builder()
                                 .title("게시글" + index)
                                 .name("tester")

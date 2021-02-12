@@ -1,5 +1,6 @@
 package com.example.sampleboard.domain;
 
+import com.example.sampleboard.control.dto.PostDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,9 +36,9 @@ public class Post {
     @NotNull
     private LocalDateTime writeTime;
 
-    public void revise(Post post) {
-        this.title = post.title;
-        this.name = post.name;
-        this.content = post.content;
+    public void revise(PostDto postDto) {
+        this.title = postDto.getTitle();
+        this.name = postDto.getName();
+        this.content = postDto.getContent();
     }
 }
