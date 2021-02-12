@@ -6,6 +6,7 @@ import com.example.sampleboard.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -20,13 +21,13 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/post")
-    public String post(@ModelAttribute("postDto")PostDto postDto){
+    public String post(@ModelAttribute("postDto") PostDto postDto) {
         return "post";
     }
 
 
     @PostMapping("/post")
-    public String creatNewPost(@Valid @ModelAttribute("postDto") PostDto postDto){
+    public String creatNewPost(@Valid @ModelAttribute("postDto") PostDto postDto) {
         Post newPost = postService.addPost(Post.builder()
                 .title(postDto.getTitle())
                 .name(postDto.getName())
@@ -35,5 +36,21 @@ public class PostController {
                 .build());
 
         return "redirect:post";
+    }
+
+    @GetMapping("/post/{postId}")
+    public String getPostDetails(@PathVariable("postId") Long id, Model model) {
+        Post post = postService.getPostById(id);
+
+        PostDto postDto = PostDto.builder()
+                .id(post.getId())
+                .name(post.getName())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .writeTime(post.getWriteTime())
+                .build();
+
+        model.addAttribute("postDto", postDto);
+        return "details";
     }
 }

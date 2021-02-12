@@ -6,12 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDto {
+
+    private Long id;
 
     @NotEmpty
     private String title;
@@ -21,4 +24,6 @@ public class PostDto {
 
     @NotEmpty
     private String content;
+
+    private LocalDateTime writeTime;
 }

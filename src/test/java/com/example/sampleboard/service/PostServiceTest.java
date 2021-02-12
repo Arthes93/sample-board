@@ -1,6 +1,7 @@
 package com.example.sampleboard.service;
 
 import com.example.sampleboard.domain.Post;
+import com.example.sampleboard.exception.PostNotExistedException;
 import com.example.sampleboard.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,8 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -90,5 +94,47 @@ class PostServiceTest {
         assertThat(post.getContent()).isEqualTo(mockPosts.get(0).getContent());
         assertThat(post.getWriteTime()).isEqualTo(mockPosts.get(0).getWriteTime());
 
+    }
+
+    @Test
+    @DisplayName("특정 포스트를 가져온다.")
+    public void getPostById(){
+        Post mockPost = Post.builder()
+                .id(1L)
+                .name("tester")
+                .title("test")
+                .content("test")
+                .writeTime(LocalDateTime.now())
+                .build();
+
+        given(postRepository.findById(1L)).willReturn(Optional.of(mockPost));
+        Post post = postService.getPostById(1L);
+        verify(postRepository).findById(1L);
+
+        assertThat(post.getId()).isEqualTo(mockPost.getId());
+        assertThat(post.getTitle()).isEqualTo(mockPost.getTitle());
+        assertThat(post.getName()).isEqualTo(mockPost.getName());
+        assertThat(post.getContent()).isEqualTo(mockPost.getContent());
+        assertThat(post.getWriteTime()).isEqualTo(mockPost.getWriteTime());
+    }
+
+    @Test
+    @DisplayName("특정 포스트를 못 가져온다.")
+    public void getPostByIdException(){
+        Post mockPost = Post.builder()
+                .id(1L)
+                .name("tester")
+                .title("test")
+                .content("test")
+                .writeTime(LocalDateTime.now())
+                .build();
+
+        given(postRepository.findById(1L)).willThrow(new PostNotExistedException(1L));
+
+        assertThatThrownBy(() ->{
+            postService.getPostById(1L);
+        }).isInstanceOf(PostNotExistedException.class);
+
+        verify(postRepository).findById(1L);
     }
 }

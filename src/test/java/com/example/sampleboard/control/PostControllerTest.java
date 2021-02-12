@@ -2,6 +2,7 @@ package com.example.sampleboard.control;
 
 import com.example.sampleboard.control.dto.PostDto;
 import com.example.sampleboard.domain.Post;
+import com.example.sampleboard.exception.PostNotExistedException;
 import com.example.sampleboard.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -141,5 +142,39 @@ class PostControllerTest {
         resultActions
                 .andExpect(status().isBadRequest())
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("상세 페이지를 가져온다.")
+    public void getPostDetails() throws Exception{
+        Post mockPost = Post.builder()
+                .id(1L)
+                .name("tester")
+                .title("test")
+                .content("test")
+                .writeTime(LocalDateTime.now())
+                .build();
+
+        given(postService.getPostById(any())).willReturn(mockPost);
+
+        ResultActions resultActions = mockMvc.perform(get("/post/1"));
+
+        resultActions
+                .andExpect(status().isOk());
+
+        verify(postService).getPostById(any());
+    }
+
+    @Test
+    @DisplayName("상세 페이지를 못 가져온다.")
+    public void getPostDetailsException() throws Exception{
+        given(postService.getPostById(any())).willThrow(new PostNotExistedException(1L));
+
+        ResultActions resultActions = mockMvc.perform(get("/post/1"));
+
+        resultActions
+                .andExpect(status().isNotFound());
+
+        verify(postService).getPostById(any());
     }
 }

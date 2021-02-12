@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/head :: main-head"></head>
+
+<body class="bg-light">
+<nav th:replace="/fragments/navbar :: main-nav"></nav>
+
+<div class="container col-lg-6 ">
+
+    <h2>상세 페이지</h2>
+    <div class="card" style="padding: 20px; border-radius: 15px; margin: 20px auto;">
+        <form class=" form-horizontal" method="post" th:object="${postDto}">
+            <h1 th:text="*{title}">제목</h1>
+            <span>작성자 : </span>
+            <span th:text="*{name}">Tester </span>
+            <hr>
+
+            <p class="lead" style="height: 300px; border-radius: 5px;" th:text="*{content}"></p>
+
+            <hr>
+            <div class="text-right" style="padding-right: 10px;">
+                <span class="text-right">작성일 : </span>
+                <span class="text-right" th:text="*{writeTime}">작성일 </span>
+            </div>
+            <hr>
+            <div class="btn_wrap text-center">
+                <a href="#" class="btn btn-default waves-effect waves-light">뒤로가기</a>
+                <button type="submit" class="btn btn-primary waves-effect waves-light">수정하기</button>
+                <button type="submit" class="btn btn-danger waves-effect waves-light">삭제하기</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>

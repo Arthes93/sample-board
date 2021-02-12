@@ -34,4 +34,10 @@ public class Post {
 
     @NotNull
     private LocalDateTime writeTime;
+
+    public void revise(Post post) {
+        this.title = post.title;
+        this.name = post.name;
+        this.content = post.content;
+    }
 }
