@@ -37,4 +37,6 @@ out/
 .vscode/
 
 **/application-mysql.yml
+**/.DS_Store
+
 application-mysql.yml
