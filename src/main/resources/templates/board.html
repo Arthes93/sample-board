@@ -27,7 +27,7 @@
 
             <tbody class="text-center">
             <tr th:each="Post:${PostList}" th:id="*{Post.id}">
-                <td class="align-middle" th:text="${PostStat.index+1}"></td>
+                <td class="align-middle" th:text="${PostStat.index + 1} + ${PostList.number}*10"></td>
                 <td class="align-middle">
                     <a th:href="@{/post/{id}(id=${Post.id})}" th:text="${Post.title}"></a>
                 </td>
@@ -37,7 +37,7 @@
                     <a class="btn btn-primary" th:href="@{/post/{id}/revise(id=${Post.id})}">수정</a>
                     <a href="#" th:href="'javascript:deletePost('+${Post.id}+')'"
                        class="btn btn-danger">삭제</a>
-<!--                    <button id="delete-btn" type="submit" class="btn btn-danger" th:onclick="deletePost([[ ${Post.id} ]]);">삭제</button>-->
+                    <!--                    <button id="delete-btn" type="submit" class="btn btn-danger" th:onclick="deletePost([[ ${Post.id} ]]);">삭제</button>-->
                 </td>
             </tr>
             </tbody>
@@ -48,27 +48,31 @@
         </div>
 
         <div class="text-center ">
-            <ul class="pagination" style="justify-content: center;">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">&laquo;</a>
+            <ul class="pagination" style="justify-content: center;"
+                th:with="startIdx=${T(Math).floor(PostList.number/5)}*5+1,
+                    lastIdx=(${PostList.totalPages} > ${startIdx}+4) ? ${startIdx}+4 : ${PostList.totalPages}"
+            >
+                <li th:class="${PostList.first} ? 'disabled'">
+                    <a class="page-link" th:href="${PostList.first} ? '#' : @{/(page=${startIdx}-1)}"
+                       aria-label="Previous">&laquo;</a>
                 </li>
-                <li class="page-item active">
-                    <a class="page-link" href="#">1</a>
+
+                <li th:style="${PostList.first}">
+                    <a class="page-link" th:href="@{/(page=${PostList.number})}">&lsaquo;</a>
                 </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">2</a>
+
+                <li th:class="(${page} == ${PostList.number}+1)"
+                    th:each="page: ${#numbers.sequence(startIdx, lastIdx)}">
+                    <a class="page-link" th:text="${page}" th:href="@{/(page=${page})}"></a>
                 </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">3</a>
+
+                <li th:style="${PostList.last}">
+                    <a class="page-link" th:href="@{/(page=${PostList.number}+2)}">&rsaquo;</a>
                 </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">4</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">5</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">&raquo;</a>
+
+                <li th:class="${PostList.last} ? 'disabled'">
+                    <a class="page-link" th:href="${PostList.last} ? '#' : @{/(page=${lastIdx}+1)}"
+                       aria-label="Next">&raquo;</a>
                 </li>
             </ul>
         </div>
@@ -76,7 +80,7 @@
 </div>
 <script>
     function deletePost(id) {
-        if(confirm(id + "번 게시글을 삭제하시겠습니까?")) {
+        if (confirm(id + "번 게시글을 삭제하시겠습니까?")) {
             const action = "/post/" + id + "/delete"
             let form = document.createElement("form");
 
@@ -87,15 +91,6 @@
             form.submit();
         }
     }
-    // var table = document.getElementById('PostTable');
-    //
-    // async function deletePost(id) {
-    //     url = "http://localhost:8080/post/" + id + "/delete";
-    //     console.log(url);
-    //     const response = await fetch(url, {
-    //         method: 'post'
-    //     });
-    // }
 </script>
 
 </body>

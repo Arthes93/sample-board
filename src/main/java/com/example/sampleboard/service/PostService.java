@@ -5,6 +5,10 @@ import com.example.sampleboard.domain.Post;
 import com.example.sampleboard.exception.PostNotExistedException;
 import com.example.sampleboard.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,5 +51,17 @@ public class PostService {
     @Transactional
     public void deletePostById(Long id){
         postRepository.deleteById(id);
+    }
+
+    public Page<Post> getPosts(Pageable pageable) {
+        int page;
+        if(pageable.getPageNumber() <= 0){
+            page = 0;
+        }else{
+            page = pageable.getPageNumber()-1;
+        }
+
+        Pageable requestPageable = PageRequest.of(page, pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "id"));
+        return postRepository.findAll(requestPageable);
     }
 }
