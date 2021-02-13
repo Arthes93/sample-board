@@ -38,9 +38,14 @@ public class PostService {
     }
 
     @Transactional
-    public Post revisePostDetails(PostDto postDto) {
+    public Post updatePost(PostDto postDto) {
         Post oldPost = postRepository.findById(postDto.getId()).orElseThrow(() -> new PostNotExistedException(postDto.getId()));
         oldPost.revise(postDto);
         return oldPost;
+    }
+
+    @Transactional
+    public void deletePostById(Long id){
+        postRepository.deleteById(id);
     }
 }

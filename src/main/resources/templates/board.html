@@ -15,27 +15,29 @@
 
     <div class="table-responsive clearfix">
         <table class="table table-hover">
-            <thead class="text-center">
+            <thead th:id="PostTable" class="text-center">
             <tr>
                 <th>번호</th>
                 <th>제목</th>
                 <th>작성자</th>
                 <th>등록일</th>
-                <th >수정/삭제</th>
+                <th>수정/삭제</th>
             </tr>
             </thead>
 
             <tbody class="text-center">
-            <tr th:each="Post:${PostList}">
-                <td  class="align-middle" th:text="${PostStat.index+1}"></td>
-                <td  class="align-middle">
+            <tr th:each="Post:${PostList}" th:id="*{Post.id}">
+                <td class="align-middle" th:text="${PostStat.index+1}"></td>
+                <td class="align-middle">
                     <a th:href="@{/post/{id}(id=${Post.id})}" th:text="${Post.title}"></a>
                 </td>
-                <td  class="align-middle" th:text="${Post.name}"></td>
-                <td  class="align-middle" th:text="${Post.writeTime}"></td>
+                <td class="align-middle" th:text="${Post.name}"></td>
+                <td class="align-middle" th:text="${Post.writeTime}"></td>
                 <td class="text-center align-middle">
-                    <a class="btn btn-primary"  th:href="@{/post/{id}(id=${Post.id})}">수정</a>
-                    <a class="btn btn-danger">삭제</a>
+                    <a class="btn btn-primary" th:href="@{/post/{id}/revise(id=${Post.id})}">수정</a>
+                    <a href="#" th:href="'javascript:deletePost('+${Post.id}+')'"
+                       class="btn btn-danger">삭제</a>
+<!--                    <button id="delete-btn" type="submit" class="btn btn-danger" th:onclick="deletePost([[ ${Post.id} ]]);">삭제</button>-->
                 </td>
             </tr>
             </tbody>
@@ -72,6 +74,30 @@
         </div>
     </div>
 </div>
+<script>
+    function deletePost(id) {
+        if(confirm(id + "번 게시글을 삭제하시겠습니까?")) {
+            const action = "/post/" + id + "/delete"
+            let form = document.createElement("form");
+
+            form.setAttribute("method", "post");
+            form.setAttribute("action", action);
+            document.body.appendChild(form);
+
+            form.submit();
+        }
+    }
+    // var table = document.getElementById('PostTable');
+    //
+    // async function deletePost(id) {
+    //     url = "http://localhost:8080/post/" + id + "/delete";
+    //     console.log(url);
+    //     const response = await fetch(url, {
+    //         method: 'post'
+    //     });
+    // }
+</script>
+
 </body>
 
 </html>

@@ -27,11 +27,11 @@ public class PostController {
 
 
     @PostMapping("/post")
-    public String creatNewPost(@Valid @ModelAttribute("postDto") PostDto postDto) {
+    public String creatOrUpdatePost(@Valid @ModelAttribute("postDto") PostDto postDto) {
         if(postDto.getId() == null) {
             postService.addPost(postDto);
         }else{
-            postService.revisePostDetails(postDto);
+            postService.updatePost(postDto);
         }
 
         return "redirect:/";
@@ -69,6 +69,20 @@ public class PostController {
         model.addAttribute("postDto", postDto);
         return "post";
     }
+
+    @PostMapping("/post/{postId}/delete")
+    public String deletePost(@PathVariable("postId") Long id){
+        postService.deletePostById(id);
+
+        return "redirect:/";
+    }
+
+//    @DeleteMapping("/post/{postId}/delete")
+//    public String deletePost(@PathVariable("postId") Long id){
+//        postService.deletePostById(id);
+//
+//        return "redirect:/";
+//    }
 
 //    @PatchMapping("/post/{postId}/revise")
 //    public String revisePostDetails(

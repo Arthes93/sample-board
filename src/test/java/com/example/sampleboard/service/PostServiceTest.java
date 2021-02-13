@@ -138,4 +138,31 @@ class PostServiceTest {
 
         verify(postRepository).findById(1L);
     }
+
+    @Test
+    @DisplayName("포스트 데이터를 업데이트 한다.")
+    public void updatePost(){
+        PostDto postDto = PostDto.builder()
+                .id(1L)
+                .name("junit")
+                .title("junitTest")
+                .content("content")
+                .build();
+
+        Post mockPost = Post.builder()
+                .id(1L)
+                .name("tester")
+                .title("test")
+                .content("test")
+                .writeTime(LocalDateTime.now())
+                .build();
+
+        given(postRepository.findById(1L)).willReturn(Optional.of(mockPost));
+        Post post = postService.updatePost(postDto);
+        verify(postRepository).findById(1L);
+
+        assertThat(post.getName()).isEqualTo(postDto.getName());
+        assertThat(post.getTitle()).isEqualTo(postDto.getTitle());
+        assertThat(post.getContent()).isEqualTo(postDto.getContent());
+    }
 }

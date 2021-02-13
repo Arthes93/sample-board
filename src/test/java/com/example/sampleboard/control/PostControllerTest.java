@@ -146,7 +146,7 @@ class PostControllerTest {
 
     @Test
     @DisplayName("상세 페이지를 가져온다.")
-    public void getPostDetails() throws Exception{
+    public void getPostDetails() throws Exception {
         Post mockPost = Post.builder()
                 .id(1L)
                 .name("tester")
@@ -167,7 +167,7 @@ class PostControllerTest {
 
     @Test
     @DisplayName("상세 페이지를 못 가져온다.")
-    public void getPostDetailsException() throws Exception{
+    public void getPostDetailsException() throws Exception {
         given(postService.getPostById(any())).willThrow(new PostNotExistedException(1L));
 
         ResultActions resultActions = mockMvc.perform(get("/post/1"));
@@ -176,5 +176,55 @@ class PostControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(postService).getPostById(any());
+    }
+
+    @Test
+    @DisplayName("포스트 수정 페이지로 이동한다.")
+    public void getPostDetailsToRevise() throws Exception {
+        Post mockPost = Post.builder()
+                .id(1L)
+                .name("tester")
+                .title("test")
+                .content("test")
+                .writeTime(LocalDateTime.now())
+                .build();
+
+        given(postService.getPostById(1L)).willReturn(mockPost);
+        ResultActions resultActions = mockMvc.perform(get("/post/1/revise"));
+        verify(postService).getPostById(1L);
+
+        resultActions
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("포스트를 수정한다.")
+    public void creatOrUpdatePost() throws Exception {
+        PostDto postDto = PostDto.builder()
+                .id(1L)
+                .name("tester")
+                .title("test")
+                .content("test")
+                .build();
+
+        ResultActions resultActions = mockMvc.perform(post("/post")
+                .flashAttr("postDto", new PostDto())
+                .param("id", "1")
+                .param("name", "tester")
+                .param("title", "test")
+                .param("content", "test")
+        );
+
+        verify(postService).updatePost(postDto);
+
+        resultActions
+                .andExpect(status().is3xxRedirection())
+                .andDo(print())
+        ;
+    }
+
+    @Test @DisplayName("포스트를 삭제한다.")
+    public void deletePost() throws Exception{
+
     }
 }

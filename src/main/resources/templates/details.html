@@ -27,11 +27,28 @@
             <div class="btn_wrap text-center">
                 <a th:href="@{/}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
                 <a th:href="@{/post/{id}/revise(id=*{id})}" type="submit" class="btn btn-primary waves-effect waves-light">수정하기</a>
-                <button type="submit" class="btn btn-danger waves-effect waves-light">삭제하기</button>
+                <a href="#" th:href="'javascript:deletePost('+*{id}+')'" class="btn btn-danger">삭제하기</a>
+<!--                <button type="submit" class="btn btn-danger waves-effect waves-light">삭제하기</button>-->
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function deletePost(id) {
+        if(confirm("해당 게시글을 삭제하시겠습니까?")) {
+            const action = "/post/" + id + "/delete"
+            let form = document.createElement("form");
+
+            form.setAttribute("method", "post");
+            form.setAttribute("action", action);
+            document.body.appendChild(form);
+
+            form.submit();
+        }
+    }
+</script>
+
 </body>
 
 </html>
