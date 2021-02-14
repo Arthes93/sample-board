@@ -47,10 +47,12 @@
             <a th:href="@{/post}" class="btn btn-primary waves-effect waves-light">Write</a>
         </div>
 
+        <!--                th:with="startIdx= ${PostList == null} ? 0 : ${T(Math).floor(PostList?.number/5)}*5+1,-->
+        <!--        th:with="startIdx= ${T(Math).floor(PostList.number/5)}*5+1-->
         <div class="text-center ">
             <ul class="pagination" style="justify-content: center;"
-                th:with="startIdx=${T(Math).floor(PostList.number/5)}*5+1,
-                    lastIdx=(${PostList.totalPages} > ${startIdx}+4) ? ${startIdx}+4 : ${PostList.totalPages}"
+                th:with="startIdx= ${PostList.totalPages == 0} ? 0 : ${T(Math).floor(PostList?.number/5)}*5+1,
+            lastIdx=(${PostList.totalPages} > ${startIdx}+4) ? ${startIdx}+4 : ${PostList.totalPages}"
             >
                 <li th:class="${PostList.first} ? 'disabled'">
                     <a class="page-link" th:href="${PostList.first} ? '#' : @{/(page=${startIdx}-1)}"

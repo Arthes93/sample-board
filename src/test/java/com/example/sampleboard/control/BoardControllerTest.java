@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -43,17 +46,21 @@ class BoardControllerTest {
                 .build()
         );
 
-        given(postService.getAllPosts()).willReturn(posts);
+        Page<Post> pagePosts = new PageImpl<>(posts);
 
+        PageRequest pageRequest = PageRequest.of(1, 10);
+
+
+        given(postService.getPosts(pageRequest)).willReturn(pagePosts);
         ResultActions resultActions = mockMvc.perform(get("/")
+                .param("page", "1")
 //                .flashAttr("PostList", new ArrayList<>())
         );
 
         resultActions
                 .andExpect(status().isOk())
                 .andDo(print());
-
-        verify(postService).getAllPosts();
+        verify(postService).getPosts(pageRequest);
     }
 
 }

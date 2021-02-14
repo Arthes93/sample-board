@@ -18,19 +18,19 @@ public class SampleBoardApplication {
     }
 
 
-    @Bean
-    public CommandLineRunner runner(PostRepository postRepository) throws Exception {
-        return new CommandLineRunner() {
-            @Override
-            public void run(String... args) throws Exception {
-                IntStream.rangeClosed(1, 170).forEach(index ->
-                        postRepository.save(Post.builder()
-                                .title("게시글" + index)
-                                .name("tester")
-                                .content("내용" + index)
-                                .writeTime(LocalDateTime.now())
-                                .build()));
-            }
-        };
-    }
+//    @Bean
+//    public CommandLineRunner runner(PostRepository postRepository) throws Exception {
+//        return new CommandLineRunner() {
+//            @Override
+//            public void run(String... args) throws Exception {
+//                IntStream.rangeClosed(1, 5).forEach(index ->
+//                        postRepository.save(Post.builder()
+//                                .title("게시글" + index)
+//                                .name("tester")
+//                                .content("내용" + index)
+//                                .writeTime(LocalDateTime.now())
+//                                .build()));
+//            }
+//        };
+//    }
 }
