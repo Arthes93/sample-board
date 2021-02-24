@@ -12,7 +12,10 @@ import org.springframework.transaction.TransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySource(value = "classpath:application-mysql.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:application-mysql.yml"
+        , factory = YamlPropertySourceFactory.class
+        , ignoreResourceNotFound = true
+)
 public class DBConfigByYml {
 
     @Value("${spring.datasource.driver-class-name}")
