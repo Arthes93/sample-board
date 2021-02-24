@@ -39,4 +39,6 @@ out/
 **/application-mysql.yml
 **/.DS_Store
 
-application-mysql.yml
+**/application-mysql.yml
+**/application-mysql.properties
+

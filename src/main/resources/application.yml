@@ -7,5 +7,5 @@ spring:
         show_sql: true
         format_sql: true
 
-  profiles:
-    include: mysql
+#  profiles:
+#    include: mysql
