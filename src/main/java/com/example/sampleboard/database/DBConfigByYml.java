@@ -1,21 +1,19 @@
 package com.example.sampleboard.database;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySource(value = "classpath:/application-mysql.properties")
-public class DBConfig implements TransactionManagementConfigurer {
+@PropertySource(value = "classpath:application-mysql.yml", factory = YamlPropertySourceFactory.class)
+public class DBConfigByYml {
 
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
@@ -39,8 +37,8 @@ public class DBConfig implements TransactionManagementConfigurer {
                 .build();
     }
 
-    @Override
-    public TransactionManager annotationDrivenTransactionManager() {
-        return new DataSourceTransactionManager(dataSource());
-    }
+//    @Override
+//    public TransactionManager annotationDrivenTransactionManager() {
+//        return new DataSourceTransactionManager(dataSource());
+//    }
 }
