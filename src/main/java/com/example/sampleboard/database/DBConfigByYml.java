@@ -6,16 +6,15 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionManager;
 
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySource(value = "classpath:application-mysql.yml"
-        , factory = YamlPropertySourceFactory.class
-        , ignoreResourceNotFound = true
-)
+@PropertySource(value = "classpath:application-mysql.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:application-h2.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true)
 public class DBConfigByYml {
 
     @Value("${spring.datasource.driver-class-name}")
@@ -31,7 +30,7 @@ public class DBConfigByYml {
     private String password;
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         return DataSourceBuilder.create()
                 .driverClassName(driverClassName)
                 .url(url)
