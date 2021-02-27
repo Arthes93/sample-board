@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Configuration
 @Profile("prod")
 //@PropertySource(value = "classpath:application-h2.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true)
-@PropertySource(value = "classpath:application-mysql.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true)
+@PropertySource(value = "file:${HOME}/deploy/sample-board/env/application-mysql.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true)
 public class DBConfigByYml {
 
     @Value("${spring.datasource.driver-class-name}")
