@@ -156,9 +156,7 @@ class PostControllerTest {
                 .build();
 
         given(postService.getPostById(any())).willReturn(mockPost);
-
         ResultActions resultActions = mockMvc.perform(get("/post/1"));
-
         resultActions
                 .andExpect(status().isOk());
 
