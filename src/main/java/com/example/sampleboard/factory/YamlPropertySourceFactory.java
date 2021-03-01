@@ -1,4 +1,4 @@
-package com.example.sampleboard.database;
+package com.example.sampleboard.factory;
 
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.env.PropertiesPropertySource;
