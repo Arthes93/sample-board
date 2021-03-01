@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 @Configuration
 @Profile("prod")
 //@PropertySource(value = "classpath:application-h2.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true)
-@PropertySource(value = "file:${HOME}/deploy/sample-board/env/application-mysql.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true)
+@PropertySource(value = "file:/home/airis/deploy/sample-board/env/application-mysql.yml", factory = YamlPropertySourceFactory.class, ignoreResourceNotFound = true)
 public class DBConfigByYml {
 
     @Value("${spring.datasource.driver-class-name}")
