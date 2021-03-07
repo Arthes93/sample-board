@@ -42,3 +42,6 @@ out/
 **/application-mysql.yml
 **/application-mysql.properties
 
+
+### log ###
+/logs/**
